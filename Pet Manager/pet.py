@@ -1,8 +1,10 @@
 import tkinter as tk
 import asyncio
+import numpy as np
 
 class Pet:
     def __init__(self):
+        # WINDOW ---------------------------------------
         # Create empty window
         self.window = tk.Tk()
         self.window.resizable(0, 0)
@@ -28,6 +30,11 @@ class Pet:
         self.frame = 0
         self.current_animation = self.run_animation
 
+        # PHYSICS --------------------------------------
+        # Initialize velocity and acceleration
+        self.velocity = np.array([0.0, 0.0])
+        self.acceleration = np.array([0.0, 0.0])
+
         self.update()
 
     def update(self):
@@ -47,6 +54,18 @@ class Pet:
         self.frame += 1
         self.frame %= len(self.current_animation)
         self.canvas.update()
+
+        # PHYSICS --------------------------------------
+        # Update acceleration based on gravity
+        self.acceleration = np.array([0, 4])
+
+        # Update velocity based on acceleration
+        self.velocity += self.acceleration
+
+        # Update position of window based on velocity
+        x = int(self.window.winfo_x() + self.velocity[0])
+        y = int(self.window.winfo_y() + self.velocity[1])
+        self.window.geometry(f"+{x}+{y}")
 
     def play_animation(self, animation):
         # Change current animation and reset frame

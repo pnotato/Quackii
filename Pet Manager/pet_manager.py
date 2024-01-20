@@ -24,7 +24,7 @@ class PetManager:
                     self.pet.play_animation(self.pet.idle_animation)
                     self.pet.window.after(0, self.pet.say, "Bye!")
         self.pet.update()
-        await asyncio.sleep(0.01)
+        await asyncio.sleep(0.001)
 
 async def main():
     pet_manager = PetManager()
