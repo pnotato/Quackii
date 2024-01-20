@@ -1,6 +1,7 @@
 import tkinter as tk
 import asyncio
 import numpy as np
+from PIL import Image, ImageTk
 
 class Pet:
     def __init__(self):
@@ -14,17 +15,23 @@ class Pet:
         self.window.wm_attributes("-transparentcolor", "black")
 
         # Create canvas, position at bottom center, and pack
-        self.canvas = tk.Canvas(self.window, width=500, height=500, bg="black", highlightthickness=0)
+        self.canvas = tk.Canvas(self.window, width=300, height=300, bg="black", highlightthickness=0)
+        self.window.attributes("-topmost", True)
         self.canvas.pack()
 
         # Create pet using image from assets folder
         self.start_frame = tk.PhotoImage(file="Assets/idle1.png")
-        self.current_frame = self.canvas.create_image(250, 250, image=self.start_frame)
+        self.current_frame = self.canvas.create_image(150, 150, image=self.start_frame)
 
         # Initialize animations
         self.run_animation = [tk.PhotoImage(file="Assets/running" + f"{i}" + ".png") for i in range(1, 4)]
         self.idle_animation = [tk.PhotoImage(file="Assets/idle" + f"{i}" + ".png") for i in range(1, 3)]
         self.grabbed_animation = [tk.PhotoImage(file="Assets/grabbed" + f"{i}" + ".png") for i in range(1, 3)]
+
+        #make images twice as small
+        self.run_animation = [image.subsample(2) for image in self.run_animation]
+        self.idle_animation = [image.subsample(2) for image in self.idle_animation]
+        self.grabbed_animation = [image.subsample(2) for image in self.grabbed_animation]
 
         # Initialize frame and animation variables
         self.frame = 0
@@ -67,10 +74,33 @@ class Pet:
         y = int(self.window.winfo_y() + self.velocity[1])
         self.window.geometry(f"+{x}+{y}")
 
+        # If the pet reaches the bottom of the screen, freeze y velocity
+        bottom = self.window.winfo_screenheight() - self.window.winfo_height()
+        if y > bottom:
+            self.velocity[1] = 0
+            #self.acceleration[1] = 0
+            self.window.geometry(f"+{x}+{bottom}")
+
+        # If the pet reaches the edges of the screen, freeze x velocity
+        left = 0
+        right = self.window.winfo_screenwidth() - self.window.winfo_width()
+        if x < left:
+            self.velocity[0] = 0
+            self.window.geometry(f"+{left}+{y}")
+        elif x > right:
+            self.velocity[0] = 0
+            self.window.geometry(f"+{right}+{y}")
+
     def play_animation(self, animation):
         # Change current animation and reset frame
         self.current_animation = animation
         self.frame = 0
+
+    def set_velocity(self, velocity):
+        self.velocity = np.array(velocity)
+
+    def set_acceleration(self, acceleration):
+        self.acceleration = np.array(acceleration)
 
     def say(self, text):
         # Create new top level window

@@ -23,8 +23,19 @@ class PetManager:
                 else:
                     self.pet.play_animation(self.pet.idle_animation)
                     self.pet.window.after(0, self.pet.say, "Bye!")
+
+            # right arrow
+            elif key == pynput.keyboard.Key.right:
+                self.pet.set_velocity([10, self.pet.velocity[1]])
+            # left arrow
+            elif key == pynput.keyboard.Key.left:
+                self.pet.set_velocity([-10, self.pet.velocity[1]])
+            # up arrow
+            elif key == pynput.keyboard.Key.up:
+                self.pet.set_velocity([self.pet.velocity[0], -40])
+        
         self.pet.update()
-        await asyncio.sleep(0.001)
+        await asyncio.sleep(0.01)
 
 async def main():
     pet_manager = PetManager()
