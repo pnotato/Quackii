@@ -3,7 +3,6 @@ import asyncio
 import numpy as np
 import Calendar.reminder as rem
 import WebScraper.webscraper as ws
-#import TTS.speech as speech
 import time
 import os
 import Chat.chat as chat
@@ -13,7 +12,6 @@ class PetManager:
         self.pet = pet.Pet()
         self.i = 0
         self.reminder = rem.Reminders()
-        #self.tts = speech.VoiceRecognition()
         self.chat = chat.chatManager()
         self.reminders = self.reminder.read_events(10)
 
@@ -82,7 +80,6 @@ class PetManager:
                     text = f.read()
                     if text != "":
                         self.pet.say(self.chat.send_message(text))
-                        #self.pet.say(text)
                         self.pet.idle()
                         open("chat.txt", "w").close()
 

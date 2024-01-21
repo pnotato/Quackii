@@ -5,6 +5,7 @@ from tkinter import font as tkFont
 import time
 import asyncio
 import os
+import Calendar.reminder as rem
 
 # Global variable to keep track of the process
 pet_manager_process = None
@@ -49,8 +50,10 @@ root.grid_columnconfigure(0, weight=1)
 main_frame = tk.Frame(root)
 credits_frame = tk.Frame(root)
 chat_frame = tk.Frame(root)
+toolbox_frame = tk.Frame(root)
+reminder_frame = tk.Frame(root)
 
-for frame in (main_frame, credits_frame, chat_frame):
+for frame in (main_frame, credits_frame, chat_frame, toolbox_frame, reminder_frame):
     frame.grid(row=0, column=0, sticky='nsew')
 
 
@@ -129,7 +132,7 @@ duck_button.place(x = 390,y=260)
 chat_button = tk.Button(main_frame, image=chatBP, command=lambda: show_frame(chat_frame))
 chat_button.place(x = 150,y=260)
 
-tool_button = tk.Button(main_frame, image=toolBP)
+tool_button = tk.Button(main_frame, image=toolBP, command=lambda: show_frame(toolbox_frame))
 tool_button.place(x = 630,y=260)
 
 cred_button = tk.Button(main_frame, image=credBP, text="Credits", command=lambda: show_frame(credits_frame))
@@ -168,7 +171,20 @@ def submit_text():
     with open("chat.txt", "w") as f:
         f.write(text)
 
-    
+# toolbox frame
+# add a button to go back to the main frame
+back_button = tk.Button(toolbox_frame, text="Back", command=lambda: show_frame(main_frame))
+back_button.pack()
+
+# add a button to go to the reminder frame
+reminder_button = tk.Button(toolbox_frame, text="Reminders", command=lambda: show_frame(reminder_frame))
+reminder_button.pack()
+
+# reminder frame
+# add a button to go back to the toolbox frame
+back_button = tk.Button(reminder_frame, text="Back", command=lambda: show_frame(toolbox_frame))
+back_button.pack()
+
 
 show_frame(main_frame)
 

@@ -3,6 +3,7 @@ import asyncio
 import numpy as np
 from PIL import Image, ImageTk
 import random
+import Chat.chat as chat
 
 class Pet:
     def __init__(self):
@@ -60,11 +61,14 @@ class Pet:
         # BIND MOUSE EVENTS ------------------------------
         # Bind mouse events to window for dragging
         self.canvas.bind("<ButtonPress-1>", self.on_drag_start)
+        self.canvas.bind("<ButtonPress-3>", self.begin_chat)
         self.canvas.bind("<B1-Motion>", self.on_drag_motion)
         self.canvas.bind("<ButtonRelease-1>", self.on_drag_release)
 
         self.isDragged = False
         self.isTalking = False
+
+        self.chat_manager = chat.chatManager()
 
         self.update()
 
@@ -154,6 +158,26 @@ class Pet:
     def on_drag_release(self, event):
         self.isDragged = False
 
+    def begin_chat(self, event):
+        # open a new top level window for the chat
+        chat_window = tk.Toplevel(self.window)
+        chat_window.resizable(0, 0)
+
+        # add an input box
+        input_box = tk.Entry(chat_window, width=50)
+        input_box.pack(side="left")
+
+        # add a send button
+        send_button = tk.Button(chat_window, text="Send", command=lambda: self.chat(input_box.get()))
+        send_button.pack(side="left")
+
+        # update the window
+        chat_window.update()
+
+    def chat(self, text):
+        self.say(self.chat_manager.send_message(text))
+        self.idle()
+        
 
     def set_velocity(self, velocity):
         self.velocity = np.array(velocity)
@@ -250,3 +274,4 @@ class Pet:
 
             # Destroy the window after a time proportional to the amount of words, and set isTalking to False
             speech_window.after(int(len(text.split()) * 500), lambda: (speech_window.destroy(), setattr(self, "isTalking", False)))
+        
