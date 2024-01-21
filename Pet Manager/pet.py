@@ -180,32 +180,58 @@ class Pet:
 
             # Remove close/minimize bar on the top
             speech_window.overrideredirect(1)
+            
+            # make the speech bubble always on top
+            speech_window.attributes("-topmost", True)
+            speech_window.wm_attributes("-transparent", "yellow") # change white to True if on macos
 
             # Create speech bubble background (rounded white rectangle)
             bubble_width = 300  # Adjust the width as needed
-            bubble_height = 100  # Adjust the height as needed
-            speech_bubble = tk.Canvas(speech_window, width=bubble_width, height=bubble_height, bg="white", highlightthickness=0)
+            bubble_height = 200  # Adjust the height as needed
+            speech_bubble = tk.Canvas(speech_window, width=bubble_width, height=bubble_height, bg="yellow", highlightthickness=0)
 
             # Calculate pet's position on the screen
             pet_position = self.window.winfo_x() + self.window.winfo_width() / 2, self.window.winfo_y() + self.window.winfo_height() / 2
 
             # Calculate speech bubble position over the pet
             speech_x = pet_position[0] - bubble_width / 2  # Adjust the positioning as needed
-            speech_y = pet_position[1] - bubble_height - 50  # Adjust the positioning as needed
+            speech_y = pet_position[1] - bubble_height - 75  # Adjust the positioning as needed
 
-            # Create rectangle for speech bubble
-            speech_bubble.create_rectangle(0, 0, bubble_width, bubble_height, fill="white", outline="white")
+            # Create rectangle and triangle for speech bubble
+            speech_bubble.create_rectangle(0, 0, bubble_width, bubble_height - 25, fill="white", outline="white", width=2)
 
-            # Create text
-            speech_text = tk.Label(speech_bubble, text=text, font=("Arial", 12), wraplength=bubble_width - 20, justify="center")
-            speech_text.pack(pady=10)  # Add some padding
+            # Define the triangle points
+            triangle_points = [
+                bubble_width / 2 - 25, bubble_height - 50,
+                bubble_width / 2 + 25, bubble_height - 50,
+                bubble_width / 2, bubble_height
+            ]
 
-            # Pack speech bubble after packing the text
+            # Create the triangle
+            speech_bubble.create_polygon(triangle_points, fill="white", outline="white", width=2)
             speech_bubble.pack()
 
             # Resize window to fit text on the screen
             speech_window.geometry(f"{bubble_width}x{bubble_height}+{int(speech_x)}+{int(speech_y)}")
             speech_window.update()
+
+            # Create new top level window for text
+            text_window = tk.Toplevel(speech_window)
+            text_window.resizable(0, 0)
+
+            # Remove close/minimize bar on the top
+            text_window.overrideredirect(1)
+
+            # make the text window always on top
+            text_window.attributes("-topmost", True)
+
+            # Create text box
+            text_box = tk.Label(text_window, text=text, width=bubble_width - 25, height=bubble_height - 25, bg="white", fg="black", font=("Arial", 12), highlightthickness=0, bd=0, wraplength=bubble_width - 20, justify="center")
+            text_box.pack()
+
+            # Resize window to fit text on the screen
+            text_window.geometry(f"{bubble_width - 25}x{bubble_height - 50}+{int(speech_x + 12.5)}+{int(speech_y + 12.5)}")
+            text_window.update()
 
             # Destroy the window after a time proportional to the amount of words, and set isTalking to False
             speech_window.after(int(len(text.split()) * 500), lambda: (speech_window.destroy(), setattr(self, "isTalking", False)))
