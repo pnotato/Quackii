@@ -263,21 +263,25 @@ class Pet:
             # Create new top level window for text
             text_window = tk.Toplevel(speech_window)
             text_window.resizable(0, 0)
-
             # Remove close/minimize bar on the top
             text_window.overrideredirect(1)
-
             # make the text window always on top
             text_window.attributes("-topmost", True)
 
             # Create text box
-            text_box = tk.Label(text_window, text=text, width=bubble_width - 25, height=bubble_height - 25, bg="white", fg="black", font=("Arial", 12), highlightthickness=0, bd=0, wraplength=bubble_width - 20, justify="center")
+            text_box = tk.Label(text_window, text="", width=bubble_width - 25, height=bubble_height - 25, bg="white", fg="black", font=("Arial", 12), highlightthickness=0, bd=0, wraplength=bubble_width - 20, justify="center")
             text_box.pack()
-
             # Resize window to fit text on the screen
             text_window.geometry(f"{bubble_width - 25}x{bubble_height - 50}+{int(speech_x + 12.5)}+{int(speech_y + 12.5)}")
             text_window.update()
 
+            def type_text(i=0):
+                if i < len(text):
+                    text_box.config(text=text_box.cget("text") + text[i])
+                    text_window.after(50, type_text, i + 1)  # Adjust the delay as needed
+
+            type_text()
+
             # Destroy the window after a time proportional to the amount of words, and set isTalking to False
             speech_window.after(int(len(text.split()) * 500), lambda: (speech_window.destroy(), setattr(self, "isTalking", False)))
-        
+            
