@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image, ImageTk
 import random
 import Chat.chat as chat
+import pygame
 
 class Pet:
     def __init__(self):
@@ -202,10 +203,14 @@ class Pet:
 
     def say(self, text):
         if not self.isTalking:
+
+            self.play_sound("Assets/animalese.mp3")
+
             self.isTalking = True
 
             # Create new top-level window
             speech_window = tk.Toplevel(self.window)
+            speech_window.bind("<Destroy>", self.stop_sound)
             speech_window.resizable(0, 0)
 
             # Remove close/minimize bar on the top
@@ -269,7 +274,7 @@ class Pet:
             text_window.attributes("-topmost", True)
 
             # Create text box
-            text_box = tk.Label(text_window, text="", width=bubble_width - 25, height=bubble_height - 25, bg="white", fg="black", font=("Arial", 12), highlightthickness=0, bd=0, wraplength=bubble_width - 20, justify="center")
+            text_box = tk.Label(text_window, text="", width=bubble_width - 25, height=bubble_height - 25, bg="white", fg="black", font=("Arial", 12), highlightthickness=0, bd=0, wraplength=bubble_width - 20, justify="center", anchor="center")
             text_box.pack()
             # Resize window to fit text on the screen
             text_window.geometry(f"{bubble_width - 25}x{bubble_height - 50}+{int(speech_x + 12.5)}+{int(speech_y + 12.5)}")
@@ -284,4 +289,13 @@ class Pet:
 
             # Destroy the window after a time proportional to the amount of words, and set isTalking to False
             speech_window.after(int(len(text.split()) * 500), lambda: (speech_window.destroy(), setattr(self, "isTalking", False)))
+
+    def play_sound(self, filename):
+        # Play the sound
+        pygame.mixer.init()
+        pygame.mixer.music.load(filename)
+        pygame.mixer.music.play()
+
+    def stop_sound(self, event):
+        pygame.mixer.music.stop()
             
