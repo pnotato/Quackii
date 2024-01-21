@@ -23,7 +23,7 @@ def toggle_duck():
         duck_button.config(image=duckButtonPhoto)
         is_duck_enabled = False
     else:
-        pet_manager_process = subprocess.Popen(["python", "pet_manager.py"])
+        pet_manager_process = subprocess.Popen(["python3", "pet_manager.py"])
         duck_button.config(image=duckButtonPhoto2)
         is_duck_enabled = True
 
@@ -48,9 +48,8 @@ root.grid_columnconfigure(0, weight=1)
 # Create frames
 main_frame = tk.Frame(root)
 credits_frame = tk.Frame(root)
-chat_frame = tk.Frame(root)
 
-for frame in (main_frame, credits_frame, chat_frame):
+for frame in (main_frame, credits_frame):
     frame.grid(row=0, column=0, sticky='nsew')
 
 
