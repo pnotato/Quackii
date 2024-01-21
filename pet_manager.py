@@ -1,20 +1,26 @@
 import pet
 import asyncio
 import numpy as np
+import Calendar.reminder as rem
+import time
 
 class PetManager:
     def __init__(self):
         self.pet = pet.Pet()
         self.i = 0
+        self.reminder = rem.Reminders()
+        self.reminders = self.reminder.read_events(10)
 
     async def update(self):
         if self.i % 100 == 0:
             self.roam()
-        elif self.i % 302 == 0:
+        elif self.i % 1011 == 0:
             self.pet.idle()
             self.compliment()
-        print(self.i)
+        elif self.i % 1000036 == 0:
+            self.pet.say("Remember to take a break! You've been working for a while now!")
         self.pet.update()
+        self.remind()
         await asyncio.sleep(0.001)
         self.i = self.i + 1
 
@@ -43,7 +49,19 @@ class PetManager:
     def compliment(self):
         # makes the pet compliment the user
         if not self.pet.isDragged:
-            self.pet.say(np.random.choice(["You're awesome!", "You're the best!", "You're looking great today!", "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a"]))
+            self.pet.say(np.random.choice(["You're awesome!", "You're the best!", "You're looking great today!", "a a a a a a a"]))
+
+    def remind(self):
+        # for each reminder, check if it's time to remind the user
+        for reminder in self.reminders:
+            if reminder[0] == {"year": time.localtime().tm_year, "month": time.localtime().tm_mon, "day": time.localtime().tm_mday, "hour": time.localtime().tm_hour, "minute": time.localtime().tm_min} and not reminder[2]:
+                reminder[2] = True
+                self.pet.say(f"Hey! You have a reminder set for this time! {reminder[1]}")
+                self.pet.idle()
+
+    def volunteer(self):
+        pass
+
 
 async def main():
     pet_manager = PetManager()

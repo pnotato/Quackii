@@ -198,7 +198,22 @@ class Pet:
             speech_y = pet_position[1] - bubble_height - 75  # Adjust the positioning as needed
 
             # Create rectangle and triangle for speech bubble
-            speech_bubble.create_rectangle(0, 0, bubble_width, bubble_height - 25, fill="white", outline="white", width=2)
+            #speech_bubble.create_rectangle(0, 0, bubble_width, bubble_height - 25, fill="white", outline="white", width=2)
+
+            # create rounded rectangle with polygon
+            radius = 25
+            rounded_rect_height = bubble_height - 25
+            speech_bubble.create_polygon(
+                radius, 0,
+                bubble_width - radius, 0,
+                bubble_width, radius,
+                bubble_width, rounded_rect_height - radius,
+                bubble_width - radius, rounded_rect_height,
+                radius, rounded_rect_height,
+                0, rounded_rect_height - radius,
+                0, radius,
+                fill="white", outline="white", width=2
+            )
 
             # Define the triangle points
             triangle_points = [

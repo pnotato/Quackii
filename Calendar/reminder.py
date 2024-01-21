@@ -16,17 +16,24 @@ class Reminders:
         self.authenticate()
 
     def authenticate(self):
-        if os.path.exists("token.json"):
-            self.creds = Credentials.from_authorized_user_file("token.json")
+        # Get the absolute path of the current file (__file__)
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+
+        token_path = os.path.join(dir_path, "token.json")
+        credentials_path = os.path.join(dir_path, "credentials.json")
+
+        if os.path.exists(token_path):
+            self.creds = Credentials.from_authorized_user_file(token_path)
 
         if not self.creds or not self.creds.valid:
             if self.creds and self.creds.expired and self.creds.refresh_token:
                 self.creds.refresh(Request())
             else:
-                flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
+                flow = InstalledAppFlow.from_client_secrets_file(credentials_path, SCOPES)
                 self.creds = flow.run_local_server(port=0)
 
-            with open("token.json", "w") as token:
+            # Save the credentials for the next run
+            with open(token_path, "w") as token:
                 token.write(self.creds.to_json())
 
     # name is a string
@@ -87,7 +94,13 @@ class Reminders:
             total_events = []
             for event in events:
                 start = event["start"].get("dateTime", event["start"].get("date"))
-                total_events.append([start, event["summary"]])
+                total_events.append([start, event["summary"], False])
+
+            # parse the start time into it's day, month, year, hour, and minute
+            for event in total_events:
+                event[0] = dt.datetime.strptime(event[0], "%Y-%m-%dT%H:%M:%S%z")
+                event[0] = {"year": event[0].year, "month": event[0].month, "day": event[0].day,
+                            "hour": event[0].hour, "minute": event[0].minute}
 
             return total_events
 
@@ -96,7 +109,9 @@ class Reminders:
 
 # Example usage:
 reminders_instance = Reminders()
-print(reminders_instance.create_event("Quack Quack", 
-                                      {"year": 2024, "month": 1, "day": 20, "hour": 10, "minute": 0}, 
-                                      {"year": 2024, "month": 1, "day": 20, "hour": 12, "minute": 0},
-                                      "Test Location"))
+print(reminders_instance.create_event("actually NOW", 
+                                      {"year": 2024, "month": 1, "day": 20, "hour": 21, "minute": 35}, 
+                                      {"year": 2024, "month": 1, "day": 20, "hour": 21, "minute": 37},
+                                      "UBC"))
+
+print(reminders_instance.read_events(10))
