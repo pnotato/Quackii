@@ -19,22 +19,23 @@ class PetManager:
         # makes the pet randomly roam/idle across the screen
 
         # randomly choose whether to roam or idle
-        roam = np.random.choice([True, False])
+        if not self.pet.isDragged:
+            roam = np.random.choice([True, False])
 
-        if roam:
-            # randomly choose a direction
-            direction = np.random.choice([-1, 1])
+            if roam:
+                # randomly choose a direction
+                direction = np.random.choice([-1, 1])
 
-            # randomly choose a speed
-            speed = np.random.randint(1, 5)
+                # randomly choose a speed
+                speed = np.random.randint(1, 5)
 
-            # set the pet's velocity
-            self.pet.set_velocity([direction * speed, self.pet.velocity[1]])
+                # set the pet's velocity
+                self.pet.set_velocity([direction * speed, self.pet.velocity[1]])
 
-            # set the pet's acceleration
-            self.pet.set_acceleration([0, self.pet.acceleration[1]])
-        else:
-            self.pet.idle()
+                # set the pet's acceleration
+                self.pet.set_acceleration([0, self.pet.acceleration[1]])
+            else:
+                self.pet.idle()
 
 async def main():
     pet_manager = PetManager()
