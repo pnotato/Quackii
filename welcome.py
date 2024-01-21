@@ -3,6 +3,8 @@ import subprocess
 from PIL import Image, ImageTk
 from tkinter import font as tkFont
 import time
+import asyncio
+import os
 
 # Global variable to keep track of the process
 pet_manager_process = None
@@ -46,8 +48,9 @@ root.grid_columnconfigure(0, weight=1)
 # Create frames
 main_frame = tk.Frame(root)
 credits_frame = tk.Frame(root)
+chat_frame = tk.Frame(root)
 
-for frame in (main_frame, credits_frame):
+for frame in (main_frame, credits_frame, chat_frame):
     frame.grid(row=0, column=0, sticky='nsew')
 
 
@@ -123,7 +126,7 @@ credBP = ImageTk.PhotoImage(credBI)
 duck_button = tk.Button(main_frame,image = duckButtonPhoto, command=toggle_duck)
 duck_button.place(x = 390,y=260)
 
-chat_button = tk.Button(main_frame, image=chatBP)
+chat_button = tk.Button(main_frame, image=chatBP, command=lambda: show_frame(chat_frame))
 chat_button.place(x = 150,y=260)
 
 tool_button = tk.Button(main_frame, image=toolBP)
@@ -138,6 +141,34 @@ credits_label.pack(pady=10)
 
 back_button = tk.Button(credits_frame, text="Back", command=lambda: show_frame(main_frame))
 back_button.pack()
+
+# Chat Frame
+
+# add an input box to submit text
+input_box = tk.Entry(chat_frame, width=50)
+input_box.pack(pady=10)
+
+# add a button to submit text
+submit_button = tk.Button(chat_frame, text="Submit", command=lambda: submit_text())
+submit_button.pack()
+
+# add a button to go back to the main frame
+back_button = tk.Button(chat_frame, text="Back", command=lambda: show_frame(main_frame))
+back_button.pack()
+
+# when you submit text, call the pet manager's chat function
+def submit_text():
+    global input_box
+    text = input_box.get()
+    input_box.delete(0, tk.END)
+
+    # create new txt file if one does not exist already, and replace the text in the file with the new text
+    if not os.path.exists("chat.txt"):
+        open("chat.txt", "w").close()
+    with open("chat.txt", "w") as f:
+        f.write(text)
+
+    
 
 show_frame(main_frame)
 

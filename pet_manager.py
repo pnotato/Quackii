@@ -5,6 +5,8 @@ import Calendar.reminder as rem
 import WebScraper.webscraper as ws
 import TTS.speech as speech
 import time
+import os
+#import Chat.chat as chat
 
 class PetManager:
     def __init__(self):
@@ -12,6 +14,7 @@ class PetManager:
         self.i = 0
         self.reminder = rem.Reminders()
         self.tts = speech.VoiceRecognition()
+        #self.chat = chat.chatManager()
         self.reminders = self.reminder.read_events(10)
 
     async def update(self):
@@ -27,6 +30,7 @@ class PetManager:
             self.pet.say("Remember to take a break! You've been working for a while now!")
         self.pet.update()
         self.remind()
+        self.read()
         await asyncio.sleep(0.001)
         self.i = self.i + 1
 
@@ -69,6 +73,24 @@ class PetManager:
         if not self.pet.isDragged:
             random_opportunity = ws.get_random_volunteer_opportunity()
             self.pet.say(f"Hey! {random_opportunity[4]} has a volunteer opportunity you may be interested in! \n\n {random_opportunity[0]} \n {random_opportunity[3]}")
+
+    def read(self):
+        # check the chat.txt file for new messages. Once a message is read, clear the txt file
+        if not self.pet.isDragged:
+            if os.path.exists("chat.txt"):
+                with open("chat.txt", "r") as f:
+                    text = f.read()
+                    if text != "":
+                        #self.pet.say(self.chat.send_message(text))
+                        self.pet.say(text)
+                        self.pet.idle()
+                        open("chat.txt", "w").close()
+
+    def chat(self, text):
+        if not self.pet.isDragged:
+            self.pet.say(self.chat.send_message(text))
+            self.pet.idle()
+
 
 
 async def main():
