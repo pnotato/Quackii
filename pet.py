@@ -163,13 +163,19 @@ class Pet:
         chat_window = tk.Toplevel(self.window)
         chat_window.resizable(0, 0)
 
-        # add an input box
-        input_box = tk.Entry(chat_window, width=50)
-        input_box.pack(side="left")
+        # change background color of window to yellow
+        chat_window.configure(bg="#dba40b")
 
-        # add a send button
-        send_button = tk.Button(chat_window, text="Send", command=lambda: self.chat(input_box.get()))
-        send_button.pack(side="left")
+        # configure the font size and style
+        font = ("Arial", 12)
+
+        # add an input box with larger font size
+        input_box = tk.Entry(chat_window, width=50, font=font)
+        input_box.pack(side="left", padx=10, pady=10)
+
+        # add a send button with larger font size and modern design
+        send_button = tk.Button(chat_window, text="Ask Quackii!", font=font, bg="#1f1f1f", fg="white", relief="flat", command=lambda: self.chat(input_box.get()))
+        send_button.pack(side="left", padx=10, pady=10)
 
         # update the window
         chat_window.update()
