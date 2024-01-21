@@ -1,0 +1,19 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<form method="POST">
+    <button class="btn btn-outline-warning" style="height: 10vh; font-size: 25px;" type="submit">Back</button>
+</form>
+
+<div class="button-rows">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="OpenAI API Key" aria-label="Recipient's username" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <form method="POST">
+                <button class="btn btn-outline-secondary" type="submit">Save Key</button>
+            </form>
+        </div>
+      </div>
+</div>
+
+{% endblock %}
