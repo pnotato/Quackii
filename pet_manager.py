@@ -29,10 +29,10 @@ class PetManager:
         elif self.i % 1000036 == 0:
             self.pet.say("Remember to take a break! You've been working for a while now!")
         self.pet.update()
+        self.read_reminders("reminders.txt")
         self.remind()
         self.read()
-        self.read_reminders("reminders.txt")
-
+        
         # get the username and status from the settings.txt file
         with open("settings.txt", "r") as f:
             self.username = f.readline().strip()
@@ -79,7 +79,8 @@ class PetManager:
     def remind(self):
         # for each reminder, check if it's time to remind the user
         for reminder in self.reminders:
-            if reminder[0] == {"year": time.localtime().tm_year, "month": time.localtime().tm_mon, "day": time.localtime().tm_mday, "hour": time.localtime().tm_hour, "minute": time.localtime().tm_min} and not reminder[2]:
+            if reminder[0] == {"year": time.localtime().tm_year, "month": time.localtime().tm_mon, "day": time.localtime().tm_mday, "hour": time.localtime().tm_hour, "minute": time.localtime().tm_min}:
+                print("AHHHHHHHHHHHHHHHHHHHHHH")
                 reminder[2] = True
                 self.pet.say(f"Hey! You have a reminder set for this time! {reminder[1]}")
                 self.pet.idle()

@@ -93,6 +93,9 @@ def reminders():
         with open("reminders.txt", "w") as f:
             for reminder in reminders_list:
                 f.write(str(reminder) + "\n")
+
+        with open("reminders.txt", "r") as f:
+            print(f.read())
         
         # Redirect to the same page to refresh the reminders list
         return redirect("/reminders")
