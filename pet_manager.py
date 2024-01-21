@@ -103,7 +103,8 @@ class PetManager:
     def send(self, message):
         #send a random message
         try:
-            self.pet.say(str(send_message(message)))
+            response = send_message(message)
+            self.pet.say(f"{response['username']} is {response['status']}")
         except:
             pass
 
