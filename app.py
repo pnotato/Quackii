@@ -37,7 +37,11 @@ def index():
 @app.route("/toolbox", methods=['GET', 'POST'])
 def toolbox():
     if request.method == 'POST':
-        return redirect("/")
+        button = request.form.get('button')
+        if button == 'home':
+            return redirect("/")
+        elif button == 'reminders':
+            return redirect("/toolbox/reminders")
     else: 
         return render_template('toolbox.html')
     
