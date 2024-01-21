@@ -1,7 +1,27 @@
-{% extends 'layout.html' %}
-
-{% block content %}
-    <a href="/">
-        <button class="btn btn-outline-warning" style="height: 10vh; font-size: 25px;" type="submit">Back</button>
-    </a>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
+        <link href="/static/styles.css" rel="stylesheet">
+        <title>Quackii</title>
+    </head>
+    <body>
+        <div class="background">
+            <h1>Quackii</h1>
+            <form method="POST">
+                <button class="btn btn-warning" type="submit" name="button" value="back">Back</button>
+            </form>
+            <a href="/">
+                <button class="btn btn-outline-warning" style="height: 10vh; font-size: 25px;" type="submit">Back</button>
+            </a>
+            <form method="POST">
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" name="username"><br>
+                <label for="status">Status:</label><br>
+                <input type="text" id="status" name="status"><br>
+                <input type="submit" value="Save">
+            </form>
+        </div>
+    </body>
+</html>

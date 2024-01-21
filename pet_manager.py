@@ -16,8 +16,6 @@ class PetManager:
         self.chat = chat.chatManager()
         self.reminders = self.reminder.read_events(10)
 
-        self.message = "yo what's up"
-
     async def update(self):
         if self.i % 100 == 0:
             self.roam()
@@ -28,14 +26,21 @@ class PetManager:
             self.pet.idle()
             self.volunteer()
         elif self.i % 1000 == 999:
-            pass
-            print("sending")
-            print(self.send(self.message))
+            self.pet.idle()
+            self.send(self.message)
         elif self.i % 1000036 == 0:
             self.pet.say("Remember to take a break! You've been working for a while now!")
         self.pet.update()
         self.remind()
         self.read()
+
+        # get the username and status from the settings.txt file
+        with open("settings.txt", "r") as f:
+            self.username = f.readline().strip()
+            self.status = f.readline().strip()
+
+        self.message = {"username": self.username, "status": self.status}
+
         await asyncio.sleep(0.001)
         self.i = self.i + 1
 
@@ -97,7 +102,7 @@ class PetManager:
 
     def send(self, message):
         #send a random message
-        self.pet.say(send_message(message))
+        self.pet.say(str(send_message(message)))
 
 async def main():
     pet_manager = PetManager()

@@ -44,6 +44,16 @@ def settings():
         button = request.form.get('button')
         if button == 'home':
             return redirect("/")
+        
+        username = request.form['username']
+        status = request.form['status']
+
+        # write these to a file
+        with open("settings.txt", "w") as f:
+            f.write(username + "\n")
+            f.write(status + "\n")
+
+        return redirect("/settings")
     else: 
         return render_template('settings.html')
     
