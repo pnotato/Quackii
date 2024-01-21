@@ -2,9 +2,20 @@
     padding: 100px;
 }
 
-.background {
+body {
     background-image: url(quackbg.gif);
     background-color: black;
-    background-size: 100% 100%;
+    height: 100vh;
+    background-size: cover; /* or background-size: contain; */
     background-repeat: no-repeat;
+    padding: 0;
+    margin: 0;
+}
+
+.button-list {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    float: left;
+    justify-content: flex-start;
 }
