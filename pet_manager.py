@@ -21,10 +21,10 @@ class PetManager:
     async def update(self):
         if self.i % 100 == 0:
             self.roam()
-        elif self.i % 5045 == 0:
+        elif self.i % 4001 == 0:
             self.pet.idle()
             self.compliment()
-        elif self.i % 6023 == 0:
+        elif self.i % 2301 == 0:
             self.pet.idle()
             self.volunteer()
         elif self.i % 1000036 == 0:
