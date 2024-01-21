@@ -1,4 +1,5 @@
 import socket
+import pickle
 
 # Server configuration
 host = '0.0.0.0'  # Listen on all available interfaces
@@ -22,20 +23,22 @@ print(f"Connection from {client_address}")
 # Loop to receive and send messages
 while True:
     # Receive data from the client
-    data = client_socket.recv(1024).decode('utf-8')
+    data = client_socket.recv(1024)
     
     if not data:
         break  # If no data is received, break the loop
+
+    # Deserialize the received data using pickle
+    received_data = pickle.loads(data)
     
-    print(f"Received from client: {data}")
+    print(f"Received from client: {received_data}")
 
     # Send a response back to the client
     response = input("Enter your response: ")
-    client_socket.send(response.encode('utf-8'))
 
-    # Receive a message from the client
-    client_message = client_socket.recv(1024).decode('utf-8')
-    print(f"Received from client: {client_message}")
+    # Serialize the response using pickle before sending
+    response_data = pickle.dumps(response)
+    client_socket.send(response_data)
 
 # Close the sockets
 client_socket.close()

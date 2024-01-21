@@ -1,4 +1,5 @@
 import socket
+import pickle
 
 # Client configuration
 host = '10.43.231.203'  # Replace with the IP address of Computer A
@@ -12,17 +13,29 @@ client_socket.connect((host, port))
 
 # Loop to send and receive messages
 while True:
-    # Send a message to the server
-    message = input("Enter your message: ")
-    client_socket.send(message.encode('utf-8'))
+    # Send a Python object (e.g., list, int) to the server
+    message = input("Enter your message (list, int, etc.): ")
+
+    # Serialize the message using pickle before sending
+    message_data = pickle.dumps(message)
+    client_socket.send(message_data)
 
     # Receive a response from the server
-    response = client_socket.recv(1024).decode('utf-8')
+    response_data = client_socket.recv(1024)
+
+    if not response_data:
+        break  # If no data is received, break the loop
+
+    # Deserialize the response using pickle
+    response = pickle.loads(response_data)
     print(f"Received from server: {response}")
 
-    # Send a message to the server
+    # Send a Python object (e.g., list, int) to the server
     client_message = input("Enter your response to server: ")
-    client_socket.send(client_message.encode('utf-8'))
+
+    # Serialize the client message using pickle before sending
+    client_message_data = pickle.dumps(client_message)
+    client_socket.send(client_message_data)
 
 # Close the socket
 client_socket.close()
