@@ -1,9 +1,18 @@
+@font-face {
+    font-family: 'Lexend';
+    src: url('/static/fonts/Lexend-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 .btn-warning, .btn-outline-warning, .btn-outline-light{
     height: 20vh;
     width: 35vh;
     margin: 10px;
-    border: 5px solid !important;
-    border-radius: 20px;
+    font-size: 30px;
+    font-family: 'Lexend';
+    border: 1px solid;
+    border-radius: 10px;
 }
 
 body {
@@ -28,7 +37,7 @@ body {
 .button-rows {
     margin-top: 60vh;
     position: fixed;
-    bottom: 2.5%;
+    bottom: 5%;
     left: 0;
     right: 0;
     display: flex;

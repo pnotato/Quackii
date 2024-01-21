@@ -45,7 +45,7 @@ def toolbox():
     else: 
         return render_template('toolbox.html')
     
-@app.route("/toolbox/reminders", methods=['GET', 'POST'])
+@app.route("/reminders", methods=['GET', 'POST'])
 def reminders(): 
     if request.method == 'POST':
         button = request.form.get('button')
