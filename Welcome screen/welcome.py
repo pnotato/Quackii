@@ -8,18 +8,21 @@ import time
 pet_manager_process = None
 is_duck_enabled = False
 
+def show_frame(frame):
+    frame.tkraise()
+
 def toggle_duck():
-    global pet_manager_process, is_duck_enabled
+    global pet_manager_process, is_duck_enabled, button_photo_enable, button_photo_disable
 
     if is_duck_enabled:
         if pet_manager_process:
             pet_manager_process.terminate()
             pet_manager_process = None
-        duck_button.config(text="Enable Duck")
+        duck_button.config(image=duckButtonPhoto)
         is_duck_enabled = False
     else:
         pet_manager_process = subprocess.Popen(["python", "Pet Manager/pet_manager.py"])
-        duck_button.config(text="Disable Duck")
+        duck_button.config(image=duckButtonPhoto2)
         is_duck_enabled = True
 
 
@@ -29,11 +32,24 @@ def update_background(frame_number):
     background_label.config(image=frame)
     background_label.image = frame  # Keep a reference
     next_frame = (frame_number + 1) % len(gif_frames)
-    root.after(20, update_background, next_frame)
+    main_frame.after(20, update_background, next_frame)
+
+
 
 # main window
 root = tk.Tk()
 root.title("Quackii")
+
+root.grid_rowconfigure(0, weight=1)
+root.grid_columnconfigure(0, weight=1)
+
+# Create frames
+main_frame = tk.Frame(root)
+credits_frame = tk.Frame(root)
+
+for frame in (main_frame, credits_frame):
+    frame.grid(row=0, column=0, sticky='nsew')
+
 
 #font
 nunito = tkFont.Font(family="Nunito", size=18)
@@ -57,6 +73,9 @@ center_y = int(screen_height/2 - window_height / 1.8)
 root.geometry(f'{window_width}x{window_height}+{center_x}+{center_y}')
 root.resizable(False, False)
 
+
+
+
 #background
 # Set the new dimensions for the GIF
 new_width = window_width
@@ -74,7 +93,7 @@ for frame in range(gif.n_frames):
 
 
 # Create a label for the background
-background_label = tk.Label(root)
+background_label = tk.Label(main_frame)
 background_label.place(x=0, y=0, relwidth=1, relheight=1)
 
 # Start the animation
@@ -82,13 +101,45 @@ root.after(0, update_background, 0)
 
 
 
+
+
 duckButtonImage = Image.open("Assets/duckbutton1.png")
 duckButtonPhoto = ImageTk.PhotoImage(duckButtonImage)
 
+duckButtonImage2 = Image.open("Assets/duckbutton2.png")
+duckButtonPhoto2 = ImageTk.PhotoImage(duckButtonImage2)
+
+chatBI = Image.open("Assets/chatbutton.png")
+chatBP = ImageTk.PhotoImage(chatBI)
+
+toolBI = Image.open("Assets/toolboxbutton.png")
+toolBP = ImageTk.PhotoImage(toolBI)
+
+credBI = Image.open("Assets/creditsbutton.png")
+credBP = ImageTk.PhotoImage(credBI)
+
 
 # Add a button to start the virtual assistant
-duck_button = tk.Button(root, text="Enable Duck", command=toggle_duck, font=nunito, image = duckButtonPhoto)
-duck_button.pack(pady=45)
+duck_button = tk.Button(main_frame,image = duckButtonPhoto, command=toggle_duck)
+duck_button.place(x = 390,y=260)
+
+chat_button = tk.Button(main_frame, image=chatBP)
+chat_button.place(x = 150,y=260)
+
+tool_button = tk.Button(main_frame, image=toolBP)
+tool_button.place(x = 630,y=260)
+
+cred_button = tk.Button(main_frame, image=credBP, text="Credits", command=lambda: show_frame(credits_frame))
+cred_button.place(x = 390,y=430)
+
+# Credits Frame
+credits_label = tk.Label(credits_frame, text="Credits\n\nPerson 1\nPerson 2\nPerson 3")
+credits_label.pack(pady=10)
+
+back_button = tk.Button(credits_frame, text="Back", command=lambda: show_frame(main_frame))
+back_button.pack()
+
+show_frame(main_frame)
 
 # Start the Tkinter event loop
 root.mainloop()
