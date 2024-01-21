@@ -10,6 +10,9 @@ class PetManager:
     async def update(self):
         if self.i % 100 == 0:
             self.roam()
+        elif self.i % 302 == 0:
+            self.pet.idle()
+            self.compliment()
         print(self.i)
         self.pet.update()
         await asyncio.sleep(0.001)
@@ -19,7 +22,7 @@ class PetManager:
         # makes the pet randomly roam/idle across the screen
 
         # randomly choose whether to roam or idle
-        if not self.pet.isDragged:
+        if not self.pet.isDragged and not self.pet.isTalking:
             roam = np.random.choice([True, False])
 
             if roam:
@@ -36,6 +39,11 @@ class PetManager:
                 self.pet.set_acceleration([0, self.pet.acceleration[1]])
             else:
                 self.pet.idle()
+
+    def compliment(self):
+        # makes the pet compliment the user
+        if not self.pet.isDragged:
+            self.pet.say(np.random.choice(["You're awesome!", "You're the best!", "You're looking great today!", "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a"]))
 
 async def main():
     pet_manager = PetManager()
