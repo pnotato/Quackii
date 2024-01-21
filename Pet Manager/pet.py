@@ -13,7 +13,7 @@ class Pet:
 
         # Disable window background and make it transparent
         self.window.overrideredirect(1)
-        self.window.wm_attributes("-transparent", "orange")
+        self.window.wm_attributes("-transparent", "orange") # change orange to True if on macos
 
         # Create canvas, position at bottom center, and pack
         self.canvas = tk.Canvas(self.window, width=300, height=300, bg="orange", highlightthickness=0)
