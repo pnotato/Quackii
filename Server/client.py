@@ -2,7 +2,7 @@ import socket
 import pickle
 
 # Client configuration
-host = '10.43.231.203'  # Replace with the IP address of Computer A
+host = 'computer_a_ip'  # Replace with the IP address of Computer A
 port = 12345  # Use the same port number as in the server
 
 # Create a socket object
