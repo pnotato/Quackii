@@ -79,3 +79,15 @@ h1 {
 .input-group  {
     width: 70%;
 }
+
+.form-row {
+    margin-top: 50vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around; /* Adjust as needed */
+    align-items: center; /* Align items vertically in the center */
+}
+
+.row {
+    margin: 10px;
+}

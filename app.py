@@ -71,6 +71,8 @@ def reminders():
         reminder_end_time = request.form['reminderEndTime']
         reminder_location = request.form['reminderLocation']
 
+        print(f"Name: {reminder_name}, Start Date: {reminder__start_date}, End Date: {reminder__end_date}, Start Time: {reminder_start_time}, End Time: {reminder_end_time}, Location: {reminder_location}")
+
         # Parse the date and time into the required format (start and end times/dates included)
         reminder__start_date = reminder__start_date.split('-')
         reminder__end_date = reminder__end_date.split('-')
@@ -135,3 +137,5 @@ def messages():
     else: 
         return render_template('messages.html')
     
+if __name__ == '__main__':
+    app.run(host='0.0.0.0')
