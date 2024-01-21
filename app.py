@@ -34,4 +34,19 @@ def index():
     else: 
         return render_template('index.html')
     
+@app.route("/toolbox", methods=['GET', 'POST'])
+def toolbox():
+    if request.method == 'POST':
+        return redirect("/")
+    else: 
+        return render_template('toolbox.html')
+    
+@app.route("/toolbox/reminders", methods=['GET', 'POST'])
+def reminders():
+    if request.method == 'POST':
+        return redirect("/toolbox")
+    else: 
+        return render_template('reminders.html')
+
+    
 
