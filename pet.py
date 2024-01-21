@@ -13,7 +13,7 @@ class Pet:
 
         # Disable window background and make it transparent
         self.window.overrideredirect(1)
-        self.window.wm_attributes("-transparent", True) # change orange to True if on macos
+        self.window.wm_attributes("-transparent", "orange") # change orange to True if on macos
 
         # Create canvas, position at bottom center, and pack
         self.canvas = tk.Canvas(self.window, width=300, height=300, bg="orange", highlightthickness=0)
@@ -183,7 +183,7 @@ class Pet:
             
             # make the speech bubble always on top
             speech_window.attributes("-topmost", True)
-            speech_window.wm_attributes("-transparent", True) # change white to True if on macos
+            speech_window.wm_attributes("-transparent", "yellow") # change white to True if on macos
 
             # Create speech bubble background (rounded white rectangle)
             bubble_width = 300  # Adjust the width as needed

@@ -1,6 +1,7 @@
 import openai
 
-API_KEY = "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"
+# API key is stored in a separate file
+API_KEY = open("Chat/API_KEY", "r").read()
 openai.api_key = API_KEY
 
 class chatManager:
@@ -14,7 +15,7 @@ class chatManager:
             messages = [
                 {
                     "role": "system",
-                    "content": "You are a virtual assistant named Quackii."
+                    "content": "You are a virtual assistant named Quackii. Limit your responses to 1-4 sentences."
                 },
                 {
                     "role": "user",
