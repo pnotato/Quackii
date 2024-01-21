@@ -3,6 +3,7 @@ import asyncio
 import numpy as np
 import Calendar.reminder as rem
 import WebScraper.webscraper as ws
+import TTS.speech as speech
 import time
 
 class PetManager:
@@ -10,15 +11,16 @@ class PetManager:
         self.pet = pet.Pet()
         self.i = 0
         self.reminder = rem.Reminders()
+        self.tts = speech.VoiceRecognition()
         self.reminders = self.reminder.read_events(10)
 
     async def update(self):
         if self.i % 100 == 0:
             self.roam()
-        elif self.i % 10110 == 0:
+        elif self.i % 2046 == 1044:
             self.pet.idle()
             self.compliment()
-        elif self.i % 203 == 0:
+        elif self.i % 2030 == 0:
             self.pet.idle()
             self.volunteer()
         elif self.i % 1000036 == 0:

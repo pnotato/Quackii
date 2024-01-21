@@ -21,7 +21,7 @@ def toggle_duck():
         duck_button.config(image=duckButtonPhoto)
         is_duck_enabled = False
     else:
-        pet_manager_process = subprocess.Popen(["python", "Pet Manager/pet_manager.py"])
+        pet_manager_process = subprocess.Popen(["python", "pet_manager.py"])
         duck_button.config(image=duckButtonPhoto2)
         is_duck_enabled = True
 

@@ -1,5 +1,6 @@
 import speech_recognition
 import pyttsx3
+import asyncio
 
 ## pip install pyttsx3 remove later, for documentation purposes
 ## pip install py3-tts
@@ -40,7 +41,7 @@ class VoiceRecognition:
                 recognizer = speech_recognition.Recognizer()
                 continue
 
-    def listen_for_command(self):
+    async def listen_for_command(self):
         recognizer = speech_recognition.Recognizer()
 
         while True:

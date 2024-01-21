@@ -17,8 +17,8 @@ def get_volunteer_opportunities():
 
     for opportunity in opportunities:
         title = opportunity.find("h3", class_="title").text.strip()
-        activities = opportunity.find("div", class_="activities").text.strip()
-        description = opportunity.find("div", class_="description").text.strip()
+        activities = opportunity.find("div", class_="activities").text.strip().replace('\n', ' ')
+        description = opportunity.find("div", class_="description").text.strip().replace('\n', ' ')
         dates = opportunity.find("div", class_="dates").text.strip()
         organization = opportunity.find("div", class_="org-name has-text-centered").text.strip()
 
