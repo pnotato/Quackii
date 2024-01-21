@@ -8,6 +8,7 @@ import os
 import Chat.chat as chat
 from Server.client import send_message
 import Database.main as db
+import ast
 
 class PetManager:
     def __init__(self):
@@ -74,13 +75,24 @@ class PetManager:
         self.reminders = []
         with open(filename, 'r') as file:
             for line in file:
-                self.reminders.append(line)
+                reminder = ast.literal_eval(line.strip())
+                self.reminders.append(reminder)
 
     def remind(self):
         # for each reminder, check if it's time to remind the user
+
+        current_time = {
+            "year": int(time.localtime().tm_year),
+            "month": int(time.localtime().tm_mon),
+            "day": int(time.localtime().tm_mday),
+            "hour": int(time.localtime().tm_hour),
+            "minute": int(time.localtime().tm_min)
+        }
+
         for reminder in self.reminders:
-            if reminder[0] == {"year": time.localtime().tm_year, "month": time.localtime().tm_mon, "day": time.localtime().tm_mday, "hour": time.localtime().tm_hour, "minute": time.localtime().tm_min}:
-                print("AHHHHHHHHHHHHHHHHHHHHHH")
+            reminder_time = reminder[0]
+            if(reminder_time == current_time and not reminder[2]):
+                # Assuming reminder[2] is the status of the reminder, update it accordingly
                 reminder[2] = True
                 self.pet.say(f"Hey! You have a reminder set for this time! {reminder[1]}")
                 self.pet.idle()
