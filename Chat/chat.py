@@ -51,10 +51,10 @@ class chatManager:
         self.chatHistory = []
     
 # Example usage:
-chat_manager = chatManager()
-user_input = "what is your name"
-response_content = chat_manager.send_message(user_input)
-print(response_content)
-print(chat_manager.display_message_history())
-chat_manager.clear_chat_history()
-print(chat_manager.display_message_history())
+#chat_manager = chatManager()
+#user_input = "what is your name"
+#response_content = chat_manager.send_message(user_input)
+#print(response_content)
+#print(chat_manager.display_message_history())
+#chat_manager.clear_chat_history()
+#print(chat_manager.display_message_history())
