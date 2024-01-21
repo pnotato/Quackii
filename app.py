@@ -38,16 +38,14 @@ def index():
             currentstate = "SUMMON THE DUCK!"
         return render_template('index.html', currentstate=currentstate)
     
-@app.route("/toolbox", methods=['GET', 'POST'])
-def toolbox():
+@app.route("/settings", methods=['GET', 'POST'])
+def settings():
     if request.method == 'POST':
         button = request.form.get('button')
         if button == 'home':
             return redirect("/")
-        elif button == 'reminders':
-            return redirect("/toolbox/reminders")
     else: 
-        return render_template('toolbox.html')
+        return render_template('settings.html')
     
 @app.route("/reminders", methods=['GET', 'POST'])
 def reminders(): 
@@ -87,6 +85,13 @@ def reminders():
         reminders_instance = Reminders()
         reminders_list = reminders_instance.read_events(10)  # Adjust the number as needed
         return render_template('reminders.html', reminders=reminders_list)
+
+@app.route("/history", methods=['GET', 'POST'])
+def history():
+    if request.method == 'POST':
+        return redirect("/")
+    else: 
+        return render_template('history.html')
 
 @app.route("/credits", methods=['GET', 'POST'])
 def credits():
