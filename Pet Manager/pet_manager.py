@@ -35,7 +35,7 @@ class PetManager:
                 self.pet.set_velocity([self.pet.velocity[0], -40])
         
         self.pet.update()
-        await asyncio.sleep(0.01)
+        await asyncio.sleep(0.001)
 
 async def main():
     pet_manager = PetManager()

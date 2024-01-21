@@ -2,6 +2,7 @@ import tkinter as tk
 import asyncio
 import numpy as np
 from PIL import Image, ImageTk
+import random
 
 class Pet:
     def __init__(self):
@@ -20,21 +21,31 @@ class Pet:
         self.canvas.pack()
 
         # Create pet using image from assets folder
-        self.start_frame = tk.PhotoImage(file="Assets/idle1.png")
+        self.start_frame = Image.open("Assets/idle1.png")
+        self.start_frame = ImageTk.PhotoImage(self.start_frame)
         self.current_frame = self.canvas.create_image(150, 150, image=self.start_frame)
 
-        # Initialize animations
-        self.run_animation = [tk.PhotoImage(file="Assets/running" + f"{i}" + ".png") for i in range(1, 4)]
-        self.idle_animation = [tk.PhotoImage(file="Assets/idle" + f"{i}" + ".png") for i in range(1, 3)]
-        self.grabbed_animation = [tk.PhotoImage(file="Assets/grabbed" + f"{i}" + ".png") for i in range(1, 3)]
+        # Initialize animations (normal and flipped)
+        self.run_animation = [Image.open("Assets/running" + f"{i}" + ".png") for i in range(1, 4)]
+        self.idle_animation = [Image.open("Assets/idle" + f"{i}" + ".png") for i in range(1, 2)]
+        self.grabbed_animation = [Image.open("Assets/grabbed" + f"{i}" + ".png") for i in range(1, 3)]
 
-        #make images twice as small
-        self.run_animation = [image.subsample(2) for image in self.run_animation]
-        self.idle_animation = [image.subsample(2) for image in self.idle_animation]
-        self.grabbed_animation = [image.subsample(2) for image in self.grabbed_animation]
+        # Make images twice as small
+        self.run_animation = [image.resize((image.width // 2, image.height // 2)) for image in self.run_animation]
+        self.idle_animation = [image.resize((image.width // 2, image.height // 2)) for image in self.idle_animation]
+        self.grabbed_animation = [image.resize((image.width // 2, image.height // 2)) for image in self.grabbed_animation]
+
+        # Flip the images horizontally
+        self.run_animation_flipped = [image.transpose(Image.FLIP_LEFT_RIGHT) for image in self.run_animation]
+
+        self.run_animation = [ImageTk.PhotoImage(image) for image in self.run_animation]
+        self.run_animation_flipped = [ImageTk.PhotoImage(image) for image in self.run_animation_flipped]
+        self.idle_animation = [ImageTk.PhotoImage(image) for image in self.idle_animation]
+        self.grabbed_animation = [ImageTk.PhotoImage(image) for image in self.grabbed_animation]
 
         # Initialize frame and animation variables
         self.frame = 0
+        self.frame_rounded = 0
         self.current_animation = self.run_animation
 
         # PHYSICS --------------------------------------
@@ -46,20 +57,21 @@ class Pet:
 
     def update(self):
         # ANIMATION ------------------------------------
-        # Change animation frame based on current animation 
-        if self.current_animation == self.run_animation:
-            print(f"Playing frame {self.frame} of run animation")
-            self.canvas.itemconfig(self.current_frame, image=self.run_animation[self.frame])
-        elif self.current_animation == self.idle_animation:
-            print(f"Playing frame {self.frame} of idle animation")
-            self.canvas.itemconfig(self.current_frame, image=self.idle_animation[self.frame])
-        elif self.current_animation == self.grabbed_animation:
-            print(f"Playing frame {self.frame} of grabbed animation")
-            self.canvas.itemconfig(self.current_frame, image=self.grabbed_animation[self.frame])
-            
+        # Change animation frame based on current animation and velocity
+        if self.velocity[0] > 0:
+            # Moving right
+            self.current_animation = self.run_animation_flipped
+        elif self.velocity[0] < 0:
+            # Moving left
+            self.current_animation = self.run_animation
+
+        print(f"Playing frame {self.frame} of animation")
+        self.canvas.itemconfig(self.current_frame, image=self.current_animation[self.frame_rounded])
+
         # Increment frame
-        self.frame += 1
-        self.frame %= len(self.current_animation)
+        self.frame += 0.1
+        self.frame_rounded = int(self.frame)
+        self.frame_rounded %= len(self.current_animation)
         self.canvas.update()
 
         # PHYSICS --------------------------------------
@@ -78,7 +90,6 @@ class Pet:
         bottom = self.window.winfo_screenheight() - self.window.winfo_height()
         if y > bottom:
             self.velocity[1] = 0
-            #self.acceleration[1] = 0
             self.window.geometry(f"+{x}+{bottom}")
 
         # If the pet reaches the edges of the screen, freeze x velocity
@@ -95,6 +106,7 @@ class Pet:
         # Change current animation and reset frame
         self.current_animation = animation
         self.frame = 0
+        self.frame_rounded = 0
 
     def set_velocity(self, velocity):
         self.velocity = np.array(velocity)
@@ -125,6 +137,5 @@ class Pet:
         speech_window.update()
         speech_window.geometry(f"{speech_bubble.winfo_width()}x{speech_bubble.winfo_height()}")
 
-        # Destroy the window after a time proportional to the length of the text
-        speech_window.after(int(len(text) * 100), speech_window.destroy)
-
+        # Destroy the window after a time proportional to the amount of words
+        speech_window.after(int(len(text.split()) * 200), speech_window.destroy)
