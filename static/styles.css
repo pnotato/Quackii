@@ -1,0 +1,10 @@
+.btn-warning {
+    padding: 100px;
+}
+
+.background {
+    background-image: url(quackbg.gif);
+    background-color: black;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
