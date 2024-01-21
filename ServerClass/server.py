@@ -1,5 +1,6 @@
 import socket
 import pickle
+import threading
 
 class Server:
     def __init__(self, host='0.0.0.0', port=12345):
@@ -19,6 +20,9 @@ class Server:
         # Accept a connection from the client
         self.client_socket, client_address = self.server_socket.accept()
         print(f"Connection from {client_address}")
+
+        # Start a thread to receive messages
+        threading.Thread(target=self.receive_messages).start()
 
     def receive_messages(self):
         try:
@@ -51,4 +55,3 @@ class Server:
 
 # Example usage:
 server = Server()
-server.receive_messages()
