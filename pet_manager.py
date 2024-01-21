@@ -7,6 +7,7 @@ import time
 import os
 import Chat.chat as chat
 from Server.client import send_message
+import Database.main as db
 
 class PetManager:
     def __init__(self):
@@ -15,19 +16,26 @@ class PetManager:
         self.reminder = rem.Reminders()
         self.chat = chat.chatManager()
         self.reminders = self.reminder.read_events(10)
+        self.database = db.Database()
 
     async def update(self):
         if self.i % 100 == 0:
             self.roam()
-        elif self.i % 2046 == 1044:
+        elif self.i % 5045 == 0:
             self.pet.idle()
             self.compliment()
-        elif self.i % 2030 == 0:
+        elif self.i % 6023 == 0:
             self.pet.idle()
             self.volunteer()
-        elif self.i % 1000 == 999:
-            self.pet.idle()
-            self.send(self.message)
+        # elif self.i % 1000 == 999:
+        #     self.pet.idle()
+        #     try:
+        #         response = self.send(self.message)
+        #         self.database.insert_message(response["username"], response["status"])
+        #     except:
+        #         pass
+
+        #     print(self.database.get_messages())
         elif self.i % 1000036 == 0:
             self.pet.say("Remember to take a break! You've been working for a while now!")
         self.pet.update()

@@ -11,7 +11,7 @@
                     <li>{{ reminder[1] }} at {{ reminder[0]['year'] }}-{{ reminder[0]['month'] }}-{{ reminder[0]['day'] }} {{ reminder[0]['hour'] }}:{{ reminder[0]['minute'] }}</li>
                 {% endfor %}
             </div>
-            <!-- <form method="POST">
+            <form method="POST">
                 <label for="reminderName">Reminder Name:</label><br>
                 <input type="text" id="reminderName" name="reminderName"><br>
                 <label for="reminderStartDate">Reminder Start Date (YYYY-MM-DD):</label><br>
@@ -25,6 +25,6 @@
                 <label for="reminderLocation">Location:</label><br>
                 <input type="location" id="reminderLocation" name="reminderLocation"><br>
                 <input type="submit" value="Add Reminder">
-            </form> -->
+            </form>
         </div>
 {% endblock %}

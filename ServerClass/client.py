@@ -30,7 +30,7 @@ class Client:
         self.client_socket.close()
 
 # Example usage:
-client = Client('10.43.231.203', 12345)
-client.send_message("Hello, server!")
-response = client.receive_message()
-client.close_connection()
+#client = Client('10.43.231.203', 12345)
+#client.send_message("Hello, server!")
+#response = client.receive_message()
+#client.close_connection()

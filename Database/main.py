@@ -21,9 +21,9 @@ class Database:
         self.messages.delete_many({})
 
 # usage
-database = Database()
-database.insert_message("Ducky", "Hello, world!")
-database.insert_message("Ducky", "How are you?")
-database.insert_message("Ducky", "Goodbye!")
-print(database.get_messages())
-database.delete_messages()
+#database = Database()
+#database.insert_message("Ducky", "Hello, world!")
+#database.insert_message("Ducky", "How are you?")
+#database.insert_message("Ducky", "Goodbye!")
+#print(database.get_messages())
+#database.delete_messages()
