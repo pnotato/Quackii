@@ -5,7 +5,6 @@ from PIL import Image, ImageTk
 import random
 import Chat.chat as chat
 import pygame
-import ServerClass.client as client
 
 class Pet:
     def __init__(self):
@@ -66,13 +65,11 @@ class Pet:
         self.canvas.bind("<ButtonPress-3>", self.begin_chat)
         self.canvas.bind("<B1-Motion>", self.on_drag_motion)
         self.canvas.bind("<ButtonRelease-1>", self.on_drag_release)
-        self.canvas.bind("<Double-1>", self.server_chat)
 
         self.isDragged = False
         self.isTalking = False
 
         self.chat_manager = chat.chatManager()
-        self.client = client.Client("10.43.231.203", 12345)
 
         self.update()
 
@@ -187,28 +184,6 @@ class Pet:
     def chat(self, text):
         self.say(self.chat_manager.send_message(text))
         self.idle()
-
-    def server_chat(self, event):
-        # open new top level window and configure similar to chat window
-        chat_window = tk.Toplevel(self.window)
-        chat_window.resizable(0, 0)
-        chat_window.configure(bg="#dba40b")
-        font = ("Arial", 12)
-
-        # add an input box with larger font size
-        input_box = tk.Entry(chat_window, width=50, font=font)
-        input_box.pack(side="left", padx=10, pady=10)
-
-        # add a send button with larger font size and modern design
-        send_button = tk.Button(chat_window, text="Send", font=font, bg="#1f1f1f", fg="white", relief="flat", command=lambda: self.send(input_box.get()))
-        send_button.pack(side="left", padx=10, pady=10)
-
-        # update the window
-        chat_window.update()
-
-    def send(self, text):
-        self.client.send_message(text)
-        #self.say(self.client.receive_message())
 
     def set_velocity(self, velocity):
         self.velocity = np.array(velocity)

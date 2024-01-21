@@ -84,11 +84,16 @@ def reminders():
         reminder_start = {"year": reminder__start_date["year"], "month": reminder__start_date["month"], "day": reminder__start_date["day"], "hour": reminder_start_time["hour"], "minute": reminder_start_time["minute"]}
         reminder_end = {"year": reminder__end_date["year"], "month": reminder__end_date["month"], "day": reminder__end_date["day"], "hour": reminder_end_time["hour"], "minute": reminder_end_time["minute"]}
 
-        print(reminder_name, reminder_start, reminder_end, reminder_location)
-
         # Create a new reminder
         reminders_instance = Reminders()
         reminders_instance.create_event(reminder_name, reminder_start, reminder_end, reminder_location)
+
+        # read reminders and update txt file
+        reminders_list = reminders_instance.read_events(20)
+        with open("reminders.txt", "w") as f:
+            for reminder in reminders_list:
+                f.write(str(reminder) + "\n")
+        
         # Redirect to the same page to refresh the reminders list
         return redirect("/reminders")
     else:

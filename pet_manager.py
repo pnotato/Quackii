@@ -13,10 +13,9 @@ class PetManager:
     def __init__(self):
         self.pet = pet.Pet()
         self.i = 0
-        self.reminder = rem.Reminders()
         self.chat = chat.chatManager()
-        self.reminders = self.reminder.read_events(10)
         self.database = db.Database()
+        self.reminders = []
 
     async def update(self):
         if self.i % 100 == 0:
@@ -27,20 +26,12 @@ class PetManager:
         elif self.i % 6023 == 0:
             self.pet.idle()
             self.volunteer()
-        # elif self.i % 1000 == 999:
-        #     self.pet.idle()
-        #     try:
-        #         response = self.send(self.message)
-        #         self.database.insert_message(response["username"], response["status"])
-        #     except:
-        #         pass
-
-        #     print(self.database.get_messages())
         elif self.i % 1000036 == 0:
             self.pet.say("Remember to take a break! You've been working for a while now!")
         self.pet.update()
         self.remind()
         self.read()
+        self.read_reminders("reminders.txt")
 
         # get the username and status from the settings.txt file
         with open("settings.txt", "r") as f:
@@ -78,6 +69,12 @@ class PetManager:
         # makes the pet compliment the user
         if not self.pet.isDragged:
             self.pet.say(np.random.choice(["You're awesome!", "You're the best!", "You're looking great today!", "a a a a a a a"]))
+
+    def read_reminders(self, filename):
+        self.reminders = []
+        with open(filename, 'r') as file:
+            for line in file:
+                self.reminders.append(line)
 
     def remind(self):
         # for each reminder, check if it's time to remind the user
