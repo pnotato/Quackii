@@ -6,6 +6,7 @@ import WebScraper.webscraper as ws
 import time
 import os
 import Chat.chat as chat
+from Server.client import send_signal, receive_signal
 
 class PetManager:
     def __init__(self):
@@ -14,6 +15,8 @@ class PetManager:
         self.reminder = rem.Reminders()
         self.chat = chat.chatManager()
         self.reminders = self.reminder.read_events(10)
+
+        self.message = "yo what's up"
 
     async def update(self):
         if self.i % 100 == 0:
@@ -24,6 +27,10 @@ class PetManager:
         elif self.i % 2030 == 0:
             self.pet.idle()
             self.volunteer()
+        elif self.i % 1000 == 999:
+            print("sending")
+            self.send(self.message)
+            await self.receive()
         elif self.i % 1000036 == 0:
             self.pet.say("Remember to take a break! You've been working for a while now!")
         self.pet.update()
@@ -88,7 +95,15 @@ class PetManager:
             self.pet.say(self.chat.send_message(text))
             self.pet.idle()
 
+    def send(self, message):
+        #send a random message
+        send_signal(message)
 
+    def receive(self):
+        #receive a random message
+        message = receive_signal()
+        print(message)
+        self.pet.say(message)
 
 async def main():
     pet_manager = PetManager()
