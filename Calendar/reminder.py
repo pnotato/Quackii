@@ -108,10 +108,10 @@ class Reminders:
             return("An error occurred:", error)
 
 # Example usage:
-reminders_instance = Reminders()
-print(reminders_instance.create_event("actually NOW", 
-                                      {"year": 2024, "month": 1, "day": 20, "hour": 21, "minute": 35}, 
-                                      {"year": 2024, "month": 1, "day": 20, "hour": 21, "minute": 37},
-                                      "UBC"))
+#reminders_instance = Reminders()
+#print(reminders_instance.create_event("actually NOW", 
+#                                      {"year": 2024, "month": 1, "day": 20, "hour": 21, "minute": 35}, 
+#                                      {"year": 2024, "month": 1, "day": 20, "hour": 21, "minute": 37},
+#                                      "UBC"))
 
-print(reminders_instance.read_events(10))
+#print(reminders_instance.read_events(10))
