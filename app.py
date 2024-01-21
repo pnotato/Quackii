@@ -1,3 +1,4 @@
+from flask import Flask, render_template, request, redirect, url_for
 import tkinter as tk
 import subprocess
 
@@ -8,12 +9,10 @@ def toggle_duck():
     global pet_manager_process, is_duck_enabled
 
     if is_duck_enabled:
-        if pet_manager_process:
-            pet_manager_process.terminate()
-            pet_manager_process = None
+        disableDuck()
         is_duck_enabled = False
     else:
-        pet_manager_process = subprocess.Popen(["python3", "pet_manager.py"])
+        enableDuck()
         is_duck_enabled = True
 
 def enableDuck():
@@ -25,14 +24,14 @@ def disableDuck():
     if pet_manager_process:
         pet_manager_process.terminate()
 
+app = Flask(__name__)
 
+@app.route("/", methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        toggle_duck()
+        return redirect("/")
+    else: 
+        return render_template('index.html')
+    
 
-while True:
-    bob = input("Enter something: ")
-    if bob == "quit":
-        disableDuck()
-        break
-    elif bob == "enable":
-        enableDuck()
-    else:
-        print("You entered", bob)
