@@ -2,6 +2,7 @@ import pet
 import asyncio
 import numpy as np
 import Calendar.reminder as rem
+import WebScraper.webscraper as ws
 import time
 
 class PetManager:
@@ -14,9 +15,12 @@ class PetManager:
     async def update(self):
         if self.i % 100 == 0:
             self.roam()
-        elif self.i % 1011 == 0:
+        elif self.i % 10110 == 0:
             self.pet.idle()
             self.compliment()
+        elif self.i % 203 == 0:
+            self.pet.idle()
+            self.volunteer()
         elif self.i % 1000036 == 0:
             self.pet.say("Remember to take a break! You've been working for a while now!")
         self.pet.update()
@@ -60,7 +64,9 @@ class PetManager:
                 self.pet.idle()
 
     def volunteer(self):
-        pass
+        if not self.pet.isDragged:
+            random_opportunity = ws.get_random_volunteer_opportunity()
+            self.pet.say(f"Hey! {random_opportunity[4]} has a volunteer opportunity you may be interested in! \n\n {random_opportunity[0]} \n {random_opportunity[3]}")
 
 
 async def main():
