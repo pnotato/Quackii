@@ -10,9 +10,28 @@
         <div class="background">
             <h1>Quackii</h1>
             <form method="POST">
-                <button class="btn btn-warning" type="submit">Back</button>
+                <button class="btn btn-warning" type="submit" name="button" value="back">Back</button>
+            </form>
+            <ul>
+                {% for reminder in reminders %}
+                    <li>{{ reminder[1] }} at {{ reminder[0]['year'] }}-{{ reminder[0]['month'] }}-{{ reminder[0]['day'] }} {{ reminder[0]['hour'] }}:{{ reminder[0]['minute'] }}</li>
+                {% endfor %}
+            </ul>
+            <form method="POST">
+                <label for="reminderName">Reminder Name:</label><br>
+                <input type="text" id="reminderName" name="reminderName"><br>
+                <label for="reminderStartDate">Reminder Start Date (YYYY-MM-DD):</label><br>
+                <input type="start_date" id="reminderStartDate" name="reminderStartDate"><br>
+                <label for="reminderStartTime">Reminder Start Time (HH:MM):</label><br>
+                <input type="start_time" id="reminderStartTime" name="reminderStartTime"><br>
+                <label for="reminderEndDate">Reminder End Date (YYYY-MM-DD):</label><br>
+                <input type="end_date" id="reminderEndDate" name="reminderEndDate"><br>
+                <label for="reminderEndTime">Reminder End Time (HH:MM):</label><br>
+                <input type="end_time" id="reminderEndTime" name="reminderEndTime"><br>
+                <label for="reminderLocation">Location:</label><br>
+                <input type="location" id="reminderLocation" name="reminderLocation"><br>
+                <input type="submit" value="Add Reminder">
             </form>
         </div>
     </body>
-
 </html>
