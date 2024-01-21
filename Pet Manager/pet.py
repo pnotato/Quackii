@@ -37,12 +37,16 @@ class Pet:
 
         # Flip the images horizontally
         self.run_animation_flipped = [image.transpose(Image.FLIP_LEFT_RIGHT) for image in self.run_animation]
+        self.idle_animation_flipped = [image.transpose(Image.FLIP_LEFT_RIGHT) for image in self.idle_animation]  # Add this line
+        self.grabbed_animation_flipped = [image.transpose(Image.FLIP_LEFT_RIGHT) for image in self.grabbed_animation]  # Add this line
 
         self.run_animation = [ImageTk.PhotoImage(image) for image in self.run_animation]
         self.run_animation_flipped = [ImageTk.PhotoImage(image) for image in self.run_animation_flipped]
         self.idle_animation = [ImageTk.PhotoImage(image) for image in self.idle_animation]
+        self.idle_animation_flipped = [ImageTk.PhotoImage(image) for image in self.idle_animation_flipped]  # Add this line
         self.grabbed_animation = [ImageTk.PhotoImage(image) for image in self.grabbed_animation]
-
+        self.grabbed_animation_flipped = [ImageTk.PhotoImage(image) for image in self.grabbed_animation_flipped]  # Add this line
+                
         # Initialize frame and animation variables
         self.frame = 0
         self.frame_rounded = 0
@@ -113,6 +117,15 @@ class Pet:
 
     def set_acceleration(self, acceleration):
         self.acceleration = np.array(acceleration)
+
+    def idle(self):
+        if self.velocity[0] > 0:
+            self.play_animation(self.idle_animation_flipped)
+        else:
+            self.play_animation(self.idle_animation)
+            
+        self.set_velocity([0, self.velocity[1]])
+        self.set_acceleration([0, self.acceleration[1]])
 
     def say(self, text):
         # Create new top level window

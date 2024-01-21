@@ -17,7 +17,7 @@ class PetManager:
         while not self.queue.empty():
             key = self.queue.get()
             if key == pynput.keyboard.Key.space:
-                if self.pet.current_animation == self.pet.idle_animation:
+                if self.pet.current_animation == self.pet.idle_animation or self.pet.current_animation == self.pet.idle_animation_flipped:
                     self.pet.play_animation(self.pet.run_animation)
                     self.pet.window.after(0, self.pet.say, "According to all known laws of aviation, there is no way a bee should be able to fly")
                 else:
@@ -33,6 +33,9 @@ class PetManager:
             # up arrow
             elif key == pynput.keyboard.Key.up:
                 self.pet.set_velocity([self.pet.velocity[0], -40])
+            # down arrow
+            elif key == pynput.keyboard.Key.down:
+                self.pet.idle()
         
         self.pet.update()
         await asyncio.sleep(0.001)
