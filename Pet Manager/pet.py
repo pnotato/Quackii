@@ -69,7 +69,7 @@ class Pet:
             # Moving left
             self.current_animation = self.run_animation
 
-        print(f"Playing frame {self.frame} of animation")
+        #print(f"Playing frame {self.frame} of animation")
         self.canvas.itemconfig(self.current_frame, image=self.current_animation[self.frame_rounded])
 
         # Increment frame
