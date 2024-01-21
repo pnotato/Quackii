@@ -1,5 +1,6 @@
 import socket
 import pickle
+import random
 
 # Server configuration
 host = '0.0.0.0'  # Listen on all available interfaces
@@ -20,6 +21,8 @@ print(f"Server listening on {host}:{port}")
 client_socket, client_address = server_socket.accept()
 print(f"Connection from {client_address}")
 
+messages = []
+
 # Loop to receive and send messages
 while True:
     # Receive data from the client
@@ -33,8 +36,10 @@ while True:
     
     print(f"Received from client: {received_data}")
 
+    messages.append(received_data)
+
     # Send a response back to the client
-    response = input("Enter your response: ")
+    response = random.choice(messages)
 
     # Serialize the response using pickle before sending
     response_data = pickle.dumps(response)
