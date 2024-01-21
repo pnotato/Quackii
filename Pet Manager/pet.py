@@ -13,7 +13,7 @@ class Pet:
 
         # Disable window background and make it transparent
         self.window.overrideredirect(1)
-        self.window.wm_attributes("-transparentcolor", "black")
+        self.window.wm_attributes("-transparent", "black")
 
         # Create canvas, position at bottom center, and pack
         self.canvas = tk.Canvas(self.window, width=300, height=300, bg="black", highlightthickness=0)
@@ -123,7 +123,7 @@ class Pet:
             self.play_animation(self.idle_animation_flipped)
         else:
             self.play_animation(self.idle_animation)
-            
+
         self.set_velocity([0, self.velocity[1]])
         self.set_acceleration([0, self.acceleration[1]])
 
