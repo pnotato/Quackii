@@ -1,46 +1,28 @@
 import socket
-import pickle
-import random
-import asyncio
 
-def send_signal(signal): 
-    host = '127.0.0.1'
-    port = 12345
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client_socket.connect((host, port))
-    client_socket.setblocking(False)  # Set the socket to non-blocking mode
+# Client configuration
+host = '10.43.231.203'  # Replace with the IP address of Computer A
+port = 12345  # Use the same port number as in the server
 
-    serialized_signal = pickle.dumps(signal)
+# Create a socket object
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    try:
-        client_socket.send(serialized_signal)
-    except BlockingIOError:
-        print("Server is not ready to receive data.")
+# Connect to the server
+client_socket.connect((host, port))
 
-    while True:
-        try:
-            serialized_response = client_socket.recv(1024)
-            break  # If data is received, break the loop
-        except BlockingIOError:
-            continue  # If no data is received, continue the loop
+# Loop to send and receive messages
+while True:
+    # Send a message to the server
+    message = input("Enter your message: ")
+    client_socket.send(message.encode('utf-8'))
 
-    response = pickle.loads(serialized_response)
+    # Receive a response from the server
+    response = client_socket.recv(1024).decode('utf-8')
+    print(f"Received from server: {response}")
 
-    client_socket.close()
+    # Send a message to the server
+    client_message = input("Enter your response to server: ")
+    client_socket.send(client_message.encode('utf-8'))
 
-    return response
-
-def receive_signal(): 
-    host = '0.0.0.0'
-    port = 12346         # Arbitrary non-privileged port
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    
-    server_socket.bind((host, port))
-    server_socket.listen()
-    client_socket, address = server_socket.accept()
-    print(f"Connection from {address} has been established!")
-    serialized_message = client_socket.recv(1024)
-    message = pickle.loads(serialized_message)
-    return message
-
-#send_signal()
+# Close the socket
+client_socket.close()
