@@ -3,17 +3,32 @@ import pickle
 import random
 import asyncio
 
-def send_signal(message):
-    host = '10.43.231.203'  # Replace with the IP address or hostname of the server
-    port = 12345         # Use the same port as the server
-
+def send_signal(signal): 
+    host = '127.0.0.1'
+    port = 12345
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect((host, port))
+    client_socket.setblocking(False)  # Set the socket to non-blocking mode
 
-    serialized_signal = pickle.dumps(message)
-    client_socket.send(serialized_signal)
+    serialized_signal = pickle.dumps(signal)
+
+    try:
+        client_socket.send(serialized_signal)
+    except BlockingIOError:
+        print("Server is not ready to receive data.")
+
+    while True:
+        try:
+            serialized_response = client_socket.recv(1024)
+            break  # If data is received, break the loop
+        except BlockingIOError:
+            continue  # If no data is received, continue the loop
+
+    response = pickle.loads(serialized_response)
 
     client_socket.close()
+
+    return response
 
 def receive_signal(): 
     host = '0.0.0.0'

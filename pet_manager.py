@@ -29,8 +29,7 @@ class PetManager:
             self.volunteer()
         elif self.i % 1000 == 999:
             print("sending")
-            self.send(self.message)
-            await self.receive()
+            print(self.send(self.message))
         elif self.i % 1000036 == 0:
             self.pet.say("Remember to take a break! You've been working for a while now!")
         self.pet.update()
