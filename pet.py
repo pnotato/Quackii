@@ -288,7 +288,7 @@ class Pet:
             type_text()
 
             # Destroy the window after a time proportional to the amount of words, and set isTalking to False
-            speech_window.after(int(len(text.split()) * 500), lambda: (speech_window.destroy(), setattr(self, "isTalking", False)))
+            speech_window.after(int(len(text.split()) * 750), lambda: (speech_window.destroy(), setattr(self, "isTalking", False)))
 
     def play_sound(self, filename):
         # Play the sound

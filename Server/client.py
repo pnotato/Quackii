@@ -2,14 +2,17 @@ import socket
 import pickle
 
 # Client configuration
-host = '10.43.231.203'  # Replace with the IP address of Computer A
-port = 12345  # Use the same port number as in the server
+try:
+    host = '10.43.231.203'  # Replace with the IP address of Computer A
+    port = 12345  # Use the same port number as in the server
 
-# Create a socket object
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Create a socket object
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Connect to the server
-client_socket.connect((host, port))
+    # Connect to the server
+    client_socket.connect((host, port))
+except:
+    pass
 
 # Loop to send and receive messages
 def send_message(message):

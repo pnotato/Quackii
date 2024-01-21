@@ -102,7 +102,10 @@ class PetManager:
 
     def send(self, message):
         #send a random message
-        self.pet.say(str(send_message(message)))
+        try:
+            self.pet.say(str(send_message(message)))
+        except:
+            pass
 
 async def main():
     pet_manager = PetManager()
