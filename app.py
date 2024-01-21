@@ -32,7 +32,11 @@ def index():
         toggle_duck()
         return redirect("/")
     else: 
-        return render_template('index.html')
+        if is_duck_enabled:
+            currentstate = "DISABLE THE DUCK!"
+        else:
+            currentstate = "SUMMON THE DUCK!"
+        return render_template('index.html', currentstate=currentstate)
     
 @app.route("/toolbox", methods=['GET', 'POST'])
 def toolbox():

@@ -1,25 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewpoint" content="width=device-width, initial-scale=1.0">
-        <link href="/static/styles.css" rel="stylesheet">
-        <title>Quackii</title>
-    </head>
-    <body>
-        <div class="background">
-            <h1>Quackii</h1>
+{% extends 'layout.html' %}
+
+{% block content %}
             <form method="POST">
                 <button class="btn btn-warning" type="submit">Back</button>
             </form>
             <p>
-                <ul>
-                    <li>Jordan McKenzie - SFU 2nd Year</li>
-                    <li>Nicholas Chan - SFU 2nd Year</li>
-                    <li>Riley Su - UBC 2nd Year</li>
-                </ul>
+                <div class="button-list">
+                    <h1>was created by:</h1>
+                    <ul>
+                        <li>Jordan McKenzie - SFU 2nd Year</li>
+                        <li>Nicholas Chan - SFU 2nd Year</li>
+                        <li>Riley Su - UBC 2nd Year</li>
+                    </ul>
+                </div>
             </p>
-        </div>
-    </body>
-
-</html>
+{% endblock %}
