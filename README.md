@@ -9,7 +9,7 @@ This was our project submission to nwHacks 2024.
 
 # UI Captures
 #### Quackii Sitting on Your Desktop.
-![Quackii](./Assets/quackii.jpg)
+![Quackii](./Assets/quackii.png)
 ####
 #### Initialization and Settings Menu
 ![Menu](./Assets/menu.jpg)
