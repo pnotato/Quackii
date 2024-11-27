@@ -1,3 +1,3 @@
-![Quackii](./Assets/Quackii.png)
+![Quackii](./Assets/quackii.png)
 
 # Quackii
