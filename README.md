@@ -10,6 +10,6 @@ This was our project submission to nwHacks 2024.
 # Tech Stack
 Quackii is built almost entirely in Python with tkinter for the desktop GUI, and BeautifulSoup4 for webscraping volunteer opportunities. We also used the Google Workspace API for calendar access.
 
-![Menu](./Assets/menu.jpg)
-
 The initialization and settings menu was built in HTML and CSS and connected with Flask. Some components of our UI were created with the Geometry Dash Level Editor. 
+
+![Menu](./Assets/menu.jpg)
