@@ -1,4 +1,4 @@
-![Quackii](./Assets/duck.jpg)
+![Quackii](./Assets/quackii.png)
 
 # Quackii
 When faced with a difficult coding problem, it's often helpful to use [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging). We wanted to take this idea a step further, and have the rubber duck itself provide helpful insights and assistance. 
@@ -8,8 +8,8 @@ Quackii is a desktop pet that periodically gives you helpful reminders, voluntee
 This was our project submission to nwHacks 2024.
 
 # UI Captures
-#### Quackii Sitting on Your Desktop 🦆.
-![Quackii](./Assets/quackii.png)
+#### Quackii's Model 🦆.
+![Quackii](./Assets/duck.jpg)
 
 #### Initialization and Settings Menu
 ![Menu](./Assets/menu.jpg)
